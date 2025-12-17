@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale - Catalogo</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="catalogo.css">
+</head>
+<body>
+    <div class="clash-royale-background"></div>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <h1> CLASH ROYALE CATALOGO </h1>
+            <p>Esplora carte, arene e leghe</p>
+        </div>
+    </header>
+
+    <!-- NAVIGAZIONE TAB -->
+    <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="carte" onclick="switchTab('carte')"> CARTE</button>
+        <button class="nav-tab" data-tab="arene" onclick="switchTab('arene')"> ARENE</button>
+        <button class="nav-tab" data-tab="leghe" onclick="switchTab('leghe')"> LEGHE</button>
+        <a href="index.html" class="nav-tab back-btn">INDIETRO</a>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div id="searchBar" class="search-bar">
+        <input type="text" id="searchInput" placeholder=" Cerca carta per nome, abilità o descrizione...">
+    </div>
+
+    <!-- BOTTONE TOGGLE FILTRI -->
+    <div class="filter-toggle-container">
+        <button class="toggle-filters-btn" onclick="toggleFilters()">
+             FILTRI <span id="toggle-icon"></span>
+        </button>
+    </div>
+
+    <!-- FILTRI -->
+    <div id="filtersWrapper" class="filters-wrapper">
+        <div class="filter-menu">
+            <div class="filter-group">
+                <label for="rarityFilter">Rarità:</label>
+                <select id="rarityFilter" onchange="applyFilters()">
+                    <option value="">Tutti</option>
+                    <option value="Comune">Comune</option>
+                    <option value="Rara">Rara</option>
+                    <option value="Epica">Epica</option>
+                    <option value="Leggendaria">Leggendaria</option>
+                    <option value="Eroe">Eroe </option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="categoryFilter">Categoria:</label>
+                <select id="categoryFilter" onchange="applyFilters()">
+                    <option value="">Tutti</option>
+                    <option value="Truppa">Truppa</option>
+                    <option value="Incantesimo">Incantesimo</option>
+                    <option value="Edificio">Edificio</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="sortFilter">Ordina per:</label>
+                <select id="sortFilter" onchange="applyFilters()">
+                    <option value="nome-asc">Nome (A-Z)</option>
+                    <option value="nome-desc">Nome (Z-A)</option>
+                    <option value="rarità-asc">Rarità (Bassa→Alta)</option>
+                    <option value="rarità-desc">Rarità (Alta→Bassa)</option>
+                    <option value="elisir-asc">Elisir (Basso→Alto)</option>
+                    <option value="elisir-desc">Elisir (Alto→Basso)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- FILTRO ELISIR CON DUE SLIDER -->
+<div class="elixir-filter-container">
+    <label>Filtro Elisir 
+        <span id="minElixirDisplay">1</span> - 
+        <span id="maxElixirDisplay">9</span>
+    </label>
+    
+    <div class="elixir-slider-group">
+        <!-- SLIDER MINIMO -->
+        <div class="slider-container">
+            <label for="minElixirSlider">Min Elisir:</label>
+            <input type="range" id="minElixirSlider" min="1" max="9" value="1" oninput="updateElixirRange()">
+            <span id="minElixirValue">1</span>
+        </div>
+        
+        <!-- SLIDER MASSIMO -->
+        <div class="slider-container">
+            <label for="maxElixirSlider">Max Elisir:</label>
+            <input type="range" id="maxElixirSlider" min="1" max="9" value="9" oninput="updateElixirRange()">
+            <span id="maxElixirValue">9</span>
+        </div>
+        
+        <!-- INPUT NASCOSTI -->
+        <input type="number" id="minElixir" value="1" style="display: none;">
+        <input type="number" id="maxElixir" value="9" style="display: none;">
+    </div>
+</div>
+
+
+        <button class="reset-filters-btn" onclick="resetFilters()">RIPRISTINA FILTRI</button>
+    </div>
+
+    <!-- CONTATORE RISULTATI -->
+    <div class="results-counter">
+        <p>Risultati: <span id="resultsCount">0</span></p>
+        
+    </div>
+
+    <!-- NESSUN RISULTATO -->
+    <div id="noResults" class="no-results" style="display: none;">
+        <p>Nessuna carta trovata con i filtri selezionati.</p>
+        <button onclick="resetFilters()">Ripristina filtri</button>
+    </div>
+
+    <!-- CONTAINER CARTE -->
+    <div id="cardsContainer" class="cards-container"></div>
+
+    <!-- CONTAINER ARENE/LEGHE -->
+    <div id="arenasContainer" class="cards-container" style="display: none;"></div>
+
+    <!-- MODAL DETTAGLI CARTA -->
+    <div id="modalContainer" class="modal-container" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal(event)">&times;</button>
+            <div class="modal-layout">
+                <div class="riepilogo-section">
+                    <h2 id="cartaTitolo">Titolo Carta</h2>
+                    <p><strong>Descrizione:</strong> <span id="cartaDescrizione">-</span></p>
+                    <p><strong>Abilità:</strong> <span id="cartaAbilita">-</span></p>
+                    <p><strong>Rarità:</strong> <span id="cartaRarit">-</span></p>
+                    <p><strong>Tipo:</strong> <span id="cartaTipo">-</span></p>
+                    <p><strong>Danno:</strong> <span id="cartaDanno">-</span></p>
+                    <p><strong>Elisir:</strong> <span id="cartaElisir">-</span></p>
+                    <p><strong>Categoria:</strong> <span id="cartaCategoria">-</span></p>
+                    
+                    <!-- BOTTONE PER VERSIONE EVOLVED/SUPER -->
+                    <button id="variantBtn" class="variant-btn" style="display: none; margin-top: 20px; padding: 10px 20px; background: linear-gradient(135deg, #32b8c6, #2a9aa8); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold;">
+                    Mostra Versione Evolved
+                    </button>
+                </div>
+                <div class="video-section">
+                    <img id="cartaImmagine" src="" alt="Carta" style="max-width: 300px; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="catalogo.js"></script>
+    
+</body>
+</html>

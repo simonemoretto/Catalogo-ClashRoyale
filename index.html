@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogo Clash Royale</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+    <div class="hero-carousel">
+        <div class="carousel-images">
+            <div class="carousel-image active" style="background-image: url('sfondo1.png');">
+                <div class="blur-overlay"></div>
+            </div>
+            <div class="carousel-image" style="background-image: url('sfondo2.png');">
+                <div class="blur-overlay"></div>
+            </div>
+            <div class="carousel-image" style="background-image: url('sfondo3.png');">
+                <div class="blur-overlay"></div>
+            </div>
+            <div class="carousel-image" style="background-image: url('sfondo4.png');">
+                <div class="blur-overlay"></div>
+            </div>
+            <div class="carousel-image" style="background-image: url('sfondo5.png');">
+                <div class="blur-overlay"></div>
+            </div>
+        </div>
+
+        <div class="carousel-content">
+            <h1>Catalogo carte Clash Royale</h1>
+        
+            
+            <div class="index-intro">
+                <p><strong>Benvenuto nel Catalogo!</strong></p>
+                <p>In questo catalogo troverai le carte migliori  di clash royale!</p>
+            </div>
+
+            <a href="Catalogo.html" class="btn-visit">Visualizza Catalogo Completo</a>
+        </div>
+
+        <button class="carousel-btn prev" onclick="previousImage()">
+            <span>&#10094;</span>
+        </button>
+        <button class="carousel-btn next" onclick="nextImage()">
+            <span>&#10095;</span>
+        </button>
+
+        <div class="carousel-dots">
+            <span class="dot active" onclick="currentImage(0)"></span>
+            <span class="dot" onclick="currentImage(1)"></span>
+            <span class="dot" onclick="currentImage(2)"></span>
+             <span class="dot" onclick="currentImage(3)"></span>
+              <span class="dot" onclick="currentImage(4)"></span>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
